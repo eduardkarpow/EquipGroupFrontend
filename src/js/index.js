@@ -34,6 +34,7 @@ const prepareBaseGetProductsQuery = () => {
     return `http://localhost:8000/getProducts?page=${currentPage}&limit=10`;
 }
 
+//билдер для запроса получения продуктов
 const buildGetProductQuery = () => {
     let baseQuery = `http://localhost:8000/getProducts?page=${currentPage}&limit=10`;
     const sortQuery = getSortQuery();
@@ -41,7 +42,6 @@ const buildGetProductQuery = () => {
     groupsQuery = groupsQuery ? '&' + groupsQuery : '';
     return baseQuery + sortQuery + groupsQuery;
 }
-
 
 const setSortByPrice = (value) => {
     sortPrice = value;
@@ -65,7 +65,7 @@ const changePage = (event) => {
     fetchProducts(buildGetProductQuery());
 }
 
-
+//получает список групп строит по нему дерево и список содержащий ссылки на ноды дерева
 const prepareGroupsData = (data) => {
     for (let group of data) {
         const groupPrepared = { 'count': group.products_count, 'name': group.name, 'id': group.id, 'parentId': group.id_parent, 'childs': {} };
@@ -78,13 +78,14 @@ const prepareGroupsData = (data) => {
         }
     }
     prepareCounts(GroupsSearchTree)
+    //если перешли к странице с query открываем список до нужного элемента
     if(window.location.search) {
         renderNewGroupsList(Number(window.location.search.split('=')[1]), false);
     } else {
         renderNewGroupsList(1, true);
     }
 }
-
+//рекурсивно обходит дерево считает количество товаров в группе и подгруппах можно было через sql но так быстрее
 const prepareCounts = (nodes) => {
     let sum = 0;
     for (let node of Object.values(nodes)) {
@@ -105,6 +106,7 @@ const toggleGroup = (event) => {
     renderNewGroupsList(id, false);
 }
 
+//билдер для li элемента
 const createLIForgroupsList = (element, active) => {
     let li = document.createElement('li');
     li.classList.add('groups__element');
@@ -126,7 +128,7 @@ const getGroups = (id) => {
         }
     }
 }
-
+//генерирует открытый до элемента с id список
 const renderNewGroupsList = (id, isZero) => {
     let current = FlatedTree[id];
     let activeElement = createLIForgroupsList(current, true);
@@ -140,8 +142,6 @@ const renderNewGroupsList = (id, isZero) => {
         activeElement.appendChild(ul);
     }
 
-    
-    
     while (current.parentId !== 0) {
         const parent = FlatedTree[current.parentId];
         const ul = document.createElement('ul');

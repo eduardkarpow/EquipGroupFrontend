@@ -5,45 +5,38 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
-    // Режим сборки: 'development' для разработки, 'production' для продакшена
-    mode: 'development', // Или 'production'
+    mode: 'development',
 
-    // Точки входа: каждая страница имеет свою точку входа
     entry: {
         index: './src/js/index.js',
         product: './src/js/product.js',
     },
 
-    // Выходные файлы
     output: {
-        filename: '[name].[contenthash].js', // [name] будет заменен на 'index' или 'about'
-        path: path.resolve(__dirname, 'dist'), // Выходная папка
-        publicPath: '/', // Базовый путь для всех ассетов
+        filename: '[name].[contenthash].js',
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/',
     },
 
-    // Лоадеры для обработки разных типов файлов
     module: {
         rules: [
             {
-                test: /\.css$/, // Применяем этот лоадер для файлов .css
+                test: /\.css$/,
                 use: [
-                    MiniCssExtractPlugin.loader, // Извлекает CSS в отдельные файлы
-                    'css-loader' // Интерпретирует @import и url() как require/import
+                    MiniCssExtractPlugin.loader,
+                    'css-loader'
                 ],
             },
         ],
     },
 
-    // Плагины
     plugins: [
-        // Очищает папку 'dist' перед каждой сборкой
         new CleanWebpackPlugin(),
 
-        // Генерирует HTML для index.html
         new HtmlWebpackPlugin({
-            template: './public/index.html', // Шаблон HTML
-            filename: 'index.html',           // Имя выходного HTML файла
-            chunks: ['index'],                // Подключает только бандл 'index'
+            template: './public/index.html', 
+            filename: 'index.html',          
+            chunks: ['index'],               
             minify: {
                 collapseWhitespace: true,
                 removeComments: true,
@@ -52,11 +45,10 @@ module.exports = {
             }
         }),
 
-        // Генерирует HTML для about.html
         new HtmlWebpackPlugin({
-            template: './public/product.html',  // Шаблон HTML
-            filename: 'product.html',           // Имя выходного HTML файла
-            chunks: ['product'],                // Подключает только бандл 'about'
+            template: './public/product.html', 
+            filename: 'product.html',          
+            chunks: ['product'],              
             minify: {
                 collapseWhitespace: true,
                 removeComments: true,
@@ -65,40 +57,31 @@ module.exports = {
             }
         }),
 
-        // Извлекает CSS в отдельные файлы
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
         }),
     ],
 
-    // Оптимизация (для production-режима)
     optimization: {
         minimizer: [
-            new CssMinimizerPlugin(), // Минифицирует CSS
+            new CssMinimizerPlugin(),
         ],
-        // Опционально: разделение кода для общих зависимостей
         splitChunks: {
             chunks: 'all',
-            // Например, для создания общего vendor-бандла
-            // name: (module, chunks, cacheGroupKey) => {
-            //     const allChunksNames = chunks.map((item) => item.name).join('-');
-            //     return `${cacheGroupKey}-${allChunksNames}`;
-            // },
         },
     },
 
-    // DevServer (опционально, для удобства разработки)
     devServer: {
         static: {
             directory: path.join(__dirname, 'dist'),
         },
         compress: true,
         port: 9000,
-        open: true, // Открывать браузер автоматически
+        open: true,
         historyApiFallback: {
             rewrites: [
                 { from: /^\/about/, to: '/product.html' },
-                { from: /./, to: '/index.html' }, // Это для того, чтобы / попал на index.html
+                { from: /./, to: '/index.html' },
             ]
         }
     },
