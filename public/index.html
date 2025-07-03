@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../src/js/index.js" defer></script>
+    <style>
+        .wrapper {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px;
+        }
+
+        .products {
+            margin-left: 100px;
+        }
+
+        .sort {
+            display: flex;
+            align-items: center;
+
+        }
+
+        .sort>h5 {
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+        }
+
+        .pagination>h4 {
+            margin-left: 10px;
+            cursor: pointer;
+            color: blue;
+        }
+
+        .groups__element {
+            cursor: pointer;
+            color: blue;
+        }
+
+        .groups__element.active {
+            color: green;
+        }
+
+        @media (max-width: 1100px) {
+            .wrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .products {
+                margin: 0;
+            }
+        }
+        @media (max-width: 600px) {
+            .wrapper {
+                padding: 0 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <ul class="root">
+        </ul>
+        <div class="products">
+            <div class="sort">
+                <h4>Сортировать</h4>
+                <h5 id="price_inc">По цене ▲</h5>|
+                <h5 id="price_dec">По цене ▼</h5>|
+                <h5 id="name_inc">По названию ▲</h5>|
+                <h5 id="name_dec">По названию ▼</h5>
+            </div>
+            <div class="products__list">
+            </div>
+            <div class="pagination">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
