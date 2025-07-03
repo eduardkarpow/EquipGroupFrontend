@@ -6,10 +6,10 @@ let AmountOfProducts = 0;
 let currentPage = 0;
 let Groups = [];
 
-const setSortIncreasing = () => {
+const setSortPriceIncreasing = () => {
     setSortByPrice(1);
 }
-const setSortDecreasing = () => {
+const setSortPriceDecreasing = () => {
     setSortByPrice(-1);
 }
 
@@ -21,10 +21,10 @@ const setNameDecreasing = () => {
 }
 
 const getSortQuery = () => {
-    if (sortPrice !== 0) {
-        return sortPrice === 1 ? '&order=name_inc' : '&order=name_dec';
-    }
     if (sortName !== 0) {
+        return sortName === 1 ? '&order=name_inc' : '&order=name_dec';
+    }
+    if (sortPrice !== 0) {
         return sortPrice === 1 ? '&order=price_inc' : '&order=price_dec';
     }
     return '';
@@ -51,7 +51,7 @@ const setSortByPrice = (value) => {
 }
 
 const setSortByName = (value) => {
-    sortPrice = value;
+    sortName = value;
     if (value !== 0) sortPrice = 0;
 
     fetchProducts(buildGetProductQuery());
@@ -234,8 +234,8 @@ fetch("http://localhost:8000/getGroups", {
 
 fetchProducts(prepareBaseGetProductsQuery());
 
-$('#price_inc')[0].addEventListener('click', setSortIncreasing);
-$('#price_dec')[0].addEventListener('click', setSortDecreasing);
+$('#price_inc')[0].addEventListener('click', setSortPriceIncreasing);
+$('#price_dec')[0].addEventListener('click', setSortPriceDecreasing);
 $('#name_inc')[0].addEventListener('click', setNameIncreasing);
 $('#name_dec')[0].addEventListener('click', setNameDecreasing);
 
