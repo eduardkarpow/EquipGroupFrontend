@@ -1,3 +1,4 @@
+<h2>Для более удобной разработки и внедрения фронт был вынесен в отдельный проект с webpack сборщиком</h2>
 <h2>1 Выкачать репозиторий</h2>
 <h4>git clone https://github.com/eduardkarpow/EquipGroupFrontend.git && cd EquipGroupFrontend</h4>
 <h2>2 Скачать зависимотси</h2>
